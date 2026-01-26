@@ -1,20 +1,65 @@
-# devsnap README
+# DevSnap - Beautiful Code Screenshots
 
-This is the README for your extension "devsnap". After writing up a brief description, we recommend including the following sections.
+DevSnap is a VS Code extension that creates beautiful, customizable screenshots of your code snippets.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- **Live Preview**: See your code snapshot in real-time as you adjust settings
+- **13 Beautiful Themes**: Choose from Dracula, Monokai, One Dark, Nord, Night Owl, and more
+- **Customizable Settings**:
+  - Theme selection
+  - Font size (10-24px)
+  - Padding (16-128px)
+  - Line numbers toggle
+  - Window controls toggle
+  - Custom background color
+- **One-Click Copy**: Copy the generated image directly to clipboard
+- **Multi-Language Support**: Python, JavaScript, TypeScript, Java, C++, C, C#, Go, Rust, Ruby, PHP, Swift, Kotlin, HTML, CSS, JSON, YAML, SQL, Bash, and more
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+This extension requires a running backend server on `http://localhost:8000` with the `/generate` endpoint.
+
+The backend should accept the following request format:
+
+```json
+{
+  "code": "string",
+  "language": "string",
+  "theme": "string",
+  "show_line_numbers": boolean,
+  "show_window_controls": boolean,
+  "background_color": string | null,
+  "padding": number,
+  "window_title": "string",
+  "font_size": number
+}
+```
+
+## Configuration
+
+### API Base URL
+
+You can configure the backend API URL in VS Code settings:
+
+1. Open Settings (Cmd+, on macOS or Ctrl+, on Windows/Linux)
+2. Search for "DevSnap"
+3. Set `DevSnap: Api Base Url` to your backend URL (default: `http://localhost:8000`)
+
+Alternatively, add this to your `settings.json`:
+
+```json
+{
+  "devsnap.apiBaseUrl": "http://localhost:8000"
+}
+```
+
+## Usage
+
+1. Select code in your editor
+2. Right-click and choose "DevSnap: Create Beautiful Snippet"
+3. Adjust settings in the sidebar
+4. Click "Copy to Clipboard" to copy the image
 
 ## Extension Settings
 
