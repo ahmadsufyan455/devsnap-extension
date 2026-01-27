@@ -249,11 +249,42 @@ function getConfigurationWebview(code: string, language: string, fileName: strin
                     box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
                     border-radius: 8px;
                     margin-bottom: 20px;
+                    opacity: 1;
+                    transition: opacity 0.2s ease-in-out;
+                }
+                
+                img.updating {
+                    opacity: 0.5;
                 }
                 
                 .loading {
                     color: #cccccc;
                     font-size: 14px;
+                }
+                
+                .preview-container {
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+                
+                .loading-overlay {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: rgba(0, 0, 0, 0.7);
+                    padding: 12px 24px;
+                    border-radius: 4px;
+                    color: #fff;
+                    font-size: 13px;
+                    display: none;
+                    z-index: 10;
+                }
+                
+                .loading-overlay.visible {
+                    display: block;
                 }
                 
                 button {
@@ -343,8 +374,11 @@ function getConfigurationWebview(code: string, language: string, fileName: strin
             </div>
             
             <div class="main-content">
-                <div id="preview">
-                    <div class="loading">Generating preview...</div>
+                <div class="preview-container">
+                    <div id="preview">
+                        <div class="loading">Generating preview...</div>
+                    </div>
+                    <div id="loadingOverlay" class="loading-overlay">Updating...</div>
                 </div>
                 <button id="copyBtn" style="display: none;">Copy to Clipboard</button>
             </div>
@@ -382,6 +416,16 @@ function getConfigurationWebview(code: string, language: string, fileName: strin
                 });
                 
                 function updatePreview() {
+                    // Show loading overlay
+                    const loadingOverlay = document.getElementById('loadingOverlay');
+                    const preview = document.getElementById('preview');
+                    const img = preview.querySelector('img');
+                    
+                    if (img) {
+                        img.classList.add('updating');
+                        loadingOverlay.classList.add('visible');
+                    }
+                    
                     const config = {
                         theme: theme.value,
                         showLineNumbers: showLineNumbers.checked,
@@ -412,7 +456,14 @@ function getConfigurationWebview(code: string, language: string, fileName: strin
                     if (message.command === 'updateImage') {
                         currentImage = message.image;
                         const preview = document.getElementById('preview');
+                        const loadingOverlay = document.getElementById('loadingOverlay');
+                        
+                        // Update image
                         preview.innerHTML = '<img src="data:image/png;base64,' + message.image + '" />';
+                        
+                        // Hide loading overlay
+                        loadingOverlay.classList.remove('visible');
+                        
                         copyBtn.style.display = 'block';
                     } else if (message.command === 'renderAndCapture') {
                         // Render HTML and capture as image
