@@ -63,10 +63,10 @@ Python • JavaScript • TypeScript • Java • C++ • C • C# • Go • Ru
 
 ## 💡 Tips
 
-- Use keyboard shortcuts to speed up your workflow
 - Experiment with different themes to find your favorite
-- Adjust padding for different social media platforms
 - Toggle line numbers based on your use case
+- Adjust font size for better readability
+- Window controls add a professional touch to your screenshots
 
 ## 📝 What's New
 
@@ -74,7 +74,7 @@ Python • JavaScript • TypeScript • Java • C++ • C • C# • Go • Ru
 
 - ✨ Live preview with real-time updates
 - 🎨 13 beautiful syntax highlighting themes
-- ⚙️ Customizable font size, padding, and colors
+- ⚙️ Customizable font size, line numbers, and window controls
 - 📋 One-click copy to clipboard
 - 🌍 Support for 20+ programming languages
 - 🔒 100% offline - no internet required
