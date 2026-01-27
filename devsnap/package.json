@@ -1,16 +1,50 @@
 {
   "name": "devsnap",
-  "displayName": "DevSnap",
-  "description": "code screenshot made easy",
+  "displayName": "DevSnap - Beautiful Code Screenshots",
+  "description": "Create stunning, customizable screenshots of your code with live preview. Perfect for documentation, blogs, and social media.",
   "version": "0.0.1",
+  "publisher": "ahmadsufyan455",
+  "author": {
+    "name": "Ahmad Sufyan"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmadsufyan455/devsnap-extension"
+  },
+  "bugs": {
+    "url": "https://github.com/ahmadsufyan455/devsnap-extension/issues"
+  },
+  "homepage": "https://github.com/ahmadsufyan455/devsnap-extension#readme",
+  "keywords": [
+    "screenshot",
+    "code",
+    "snippet",
+    "image",
+    "export",
+    "share",
+    "carbon",
+    "syntax highlighting",
+    "themes",
+    "beautiful code",
+    "code screenshot",
+    "developer tools"
+  ],
   "engines": {
     "vscode": "^1.108.1"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Formatters",
+    "Visualization"
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
   "contributes": {
     "commands": [
       {

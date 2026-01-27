@@ -1,116 +1,91 @@
 # DevSnap - Beautiful Code Screenshots
 
-DevSnap is a VS Code extension that creates beautiful, customizable screenshots of your code snippets.
+Create stunning, customizable screenshots of your code snippets with just a few clicks! Perfect for documentation, blog posts, presentations, and social media.
 
-## Features
+![DevSnap Demo](images/demo.gif)
 
-- **Live Preview**: See your code snapshot in real-time as you adjust settings
-- **13 Beautiful Themes**: Choose from Dracula, Monokai, One Dark, Nord, Night Owl, and more
-- **Customizable Settings**:
-  - Theme selection
-  - Font size (10-24px)
-  - Padding (16-128px)
-  - Line numbers toggle
-  - Window controls toggle
-  - Custom background color
-- **One-Click Copy**: Copy the generated image directly to clipboard
-- **Multi-Language Support**: Python, JavaScript, TypeScript, Java, C++, C, C#, Go, Rust, Ruby, PHP, Swift, Kotlin, HTML, CSS, JSON, YAML, SQL, Bash, and more
+## ✨ Features
 
-## Requirements
+- **🎨 13 Beautiful Themes** - Dracula, Monokai, One Dark, Nord, Night Owl, Solarized, GitHub Dark, and more
+- **⚡ Live Preview** - See your snapshot update in real-time as you customize
+- **🎯 Fully Customizable** - Adjust font size, padding, line numbers, window controls, and background colors
+- **📋 One-Click Copy** - Copy to clipboard and paste anywhere
+- **🌍 20+ Languages** - Python, JavaScript, TypeScript, Java, C++, Go, Rust, and more
 
-This extension requires a running backend server on `http://localhost:8000` with the `/generate` endpoint.
+## 🚀 How to Use
 
-The backend should accept the following request format:
+![Usage Example](images/usage.gif)
 
-```json
-{
-  "code": "string",
-  "language": "string",
-  "theme": "string",
-  "show_line_numbers": boolean,
-  "show_window_controls": boolean,
-  "background_color": string | null,
-  "padding": number,
-  "window_title": "string",
-  "font_size": number
-}
-```
+1. **Select** code in your editor
+2. **Right-click** and choose "DevSnap: Create Beautiful Snippet"
+3. **Customize** your screenshot using the settings panel:
+   - Choose a theme
+   - Adjust font size and padding
+   - Toggle line numbers and window controls
+   - Pick a custom background color
+4. **Copy** to clipboard with one click
 
-## Configuration
+## ⚙️ Settings
 
-### API Base URL
+You can customize DevSnap behavior in VS Code settings:
 
-You can configure the backend API URL in VS Code settings:
-
-1. Open Settings (Cmd+, on macOS or Ctrl+, on Windows/Linux)
+1. Open Settings (`Cmd+,` on macOS or `Ctrl+,` on Windows/Linux)
 2. Search for "DevSnap"
-3. Set `DevSnap: Api Base Url` to your backend URL (default: `http://localhost:8000`)
+3. Configure available options
 
-Alternatively, add this to your `settings.json`:
+### Available Settings
 
-```json
-{
-  "devsnap.apiBaseUrl": "http://localhost:8000"
-}
-```
+- `devsnap.apiBaseUrl` - Backend API URL (configured by default)
 
-## Usage
+## 🎨 Available Themes
 
-1. Select code in your editor
-2. Right-click and choose "DevSnap: Create Beautiful Snippet"
-3. Adjust settings in the sidebar
-4. Click "Copy to Clipboard" to copy the image
+Choose from 13 professionally designed themes:
 
-## Extension Settings
+**Dark Themes**
+- Dracula
+- Monokai
+- One Dark
+- Nord
+- Night Owl
+- Solarized Dark
+- GitHub Dark
+- Material
+- Cobalt
+- Darcula
+- Gruvbox Dark
+- Tokyo Night
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+**Light Themes**
+- Solarized Light
 
-For example:
+## 💬 Supported Languages
 
-This extension contributes the following settings:
+Python • JavaScript • TypeScript • Java • C++ • C • C# • Go • Rust • Ruby • PHP • Swift • Kotlin • HTML • CSS • JSON • YAML • SQL • Bash • Shell • and more!
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+## 💡 Tips
 
-## Known Issues
+- Use keyboard shortcuts to speed up your workflow
+- Experiment with different themes to find your favorite
+- Adjust padding for different social media platforms
+- Toggle line numbers based on your use case
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## 📝 What's New
 
-## Release Notes
+### Version 0.0.1 - Initial Release
 
-Users appreciate release notes as you update your extension.
+- ✨ Live preview with real-time updates
+- 🎨 13 beautiful syntax highlighting themes
+- ⚙️ Customizable font size, padding, and colors
+- 📋 One-click copy to clipboard
+- 🌍 Support for 20+ programming languages
 
-### 1.0.0
+## 🤝 Feedback & Support
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Love DevSnap? Please consider:
+- ⭐ Rating the extension on the VS Code Marketplace
+- 📝 Writing a review
+- 🐛 [Report bugs or request features](https://github.com/ahmadsufyan455/devsnap-extension/issues)
 
 ---
 
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+**Enjoy creating beautiful code screenshots!** 📸

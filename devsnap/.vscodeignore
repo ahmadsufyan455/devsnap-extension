@@ -5,7 +5,10 @@ src/**
 .yarnrc
 vsc-extension-quickstart.md
 **/tsconfig.json
-**/eslint.config.mjs
+**/.eslintrc.json
 **/*.map
 **/*.ts
-**/.vscode-test.*
+node_modules/**
+.vscode/settings.json
+.vscode/settings.example.json
+images/README.md
