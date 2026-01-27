@@ -31,7 +31,7 @@
     "developer tools"
   ],
   "engines": {
-    "vscode": "^1.108.1"
+    "vscode": "^1.75.0"
   },
   "categories": [
     "Other",
@@ -71,7 +71,7 @@
     "package": "vsce package"
   },
   "devDependencies": {
-    "@types/vscode": "^1.108.1",
+    "@types/vscode": "^1.75.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
     "typescript-eslint": "^8.52.0",
