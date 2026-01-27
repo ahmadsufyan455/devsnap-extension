@@ -1,26 +1,13 @@
-import axios from 'axios';
 import { exec } from 'child_process';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { promisify } from 'util';
 import * as vscode from 'vscode';
+import { ImageGenerator, SnapshotConfig } from './imageGenerator.js';
 
 const execAsync = promisify(exec);
-
-interface SnapshotConfig {
-    theme: string;
-    showLineNumbers: boolean;
-    showWindowControls: boolean;
-    backgroundColor: string | null;
-    padding: number;
-    fontSize: number;
-}
-
-function getApiBaseUrl(): string {
-    const config = vscode.workspace.getConfiguration('devsnap');
-    return config.get<string>('apiBaseUrl') || 'http://localhost:8000';
-}
+const imageGenerator = new ImageGenerator();
 
 export function activate(context: vscode.ExtensionContext) {
     let disposable = vscode.commands.registerCommand('devsnap.snap', async () => {
@@ -41,8 +28,6 @@ export function activate(context: vscode.ExtensionContext) {
             theme: 'dracula',
             showLineNumbers: true,
             showWindowControls: true,
-            backgroundColor: null,
-            padding: 64,
             fontSize: 14
         };
 
@@ -64,34 +49,30 @@ export function activate(context: vscode.ExtensionContext) {
                     config = message.config;
 
                     try {
-                        // Get API base URL from settings
-                        const apiBaseUrl = getApiBaseUrl();
+                        // Generate HTML with syntax highlighting
+                        const styledHtml = await imageGenerator.generateHTML(
+                            code,
+                            language,
+                            fileName,
+                            config
+                        );
 
-                        // Call Python API with new configuration
-                        const response = await axios.post(`${apiBaseUrl}/generate`, {
-                            code: code,
-                            language: language,
-                            theme: config.theme,
-                            show_line_numbers: config.showLineNumbers,
-                            show_window_controls: config.showWindowControls,
-                            background_color: config.backgroundColor,
-                            padding: config.padding,
-                            window_title: fileName,
-                            font_size: config.fontSize
-                        });
-
-                        const b64Data = response.data.image_b64;
-
-                        // Update webview with new preview
+                        // Send HTML to webview to render and capture
                         panel.webview.postMessage({
-                            command: 'updateImage',
-                            image: b64Data
+                            command: 'renderAndCapture',
+                            html: styledHtml
                         });
 
                     } catch (err) {
                         vscode.window.showErrorMessage('Failed to generate preview');
-                        console.error('API error:', err);
+                        console.error('Generation error:', err);
                     }
+                } else if (message.command === 'imageCaptured') {
+                    // Received captured image from webview
+                    panel.webview.postMessage({
+                        command: 'updateImage',
+                        image: message.data
+                    });
                 } else if (message.command === 'copyImage') {
                     try {
                         // Convert base64 to Buffer
@@ -135,30 +116,23 @@ export function activate(context: vscode.ExtensionContext) {
 
         // Generate initial preview
         try {
-            // Get API base URL from settings
-            const apiBaseUrl = getApiBaseUrl();
+            // Generate HTML with syntax highlighting
+            const styledHtml = await imageGenerator.generateHTML(
+                code,
+                language,
+                fileName,
+                config
+            );
 
-            const response = await axios.post(`${apiBaseUrl}/generate`, {
-                code: code,
-                language: language,
-                theme: config.theme,
-                show_line_numbers: config.showLineNumbers,
-                show_window_controls: config.showWindowControls,
-                background_color: config.backgroundColor,
-                padding: config.padding,
-                window_title: fileName,
-                font_size: config.fontSize
-            });
-
-            const b64Data = response.data.image_b64;
-
+            // Send HTML to webview to render and capture
             panel.webview.postMessage({
-                command: 'updateImage',
-                image: b64Data
+                command: 'renderAndCapture',
+                html: styledHtml
             });
 
         } catch (err) {
-            vscode.window.showErrorMessage('Failed to connect to Python backend.');
+            vscode.window.showErrorMessage('Failed to generate snapshot.');
+            console.error('Generation error:', err);
             panel.dispose();
         }
     });
@@ -354,14 +328,6 @@ function getConfigurationWebview(code: string, language: string, fileName: strin
                 </div>
                 
                 <div class="control-group">
-                    <label for="padding">Padding</label>
-                    <div class="range-group">
-                        <input type="range" id="padding" min="16" max="128" step="16" value="${config.padding}">
-                        <span class="range-value" id="paddingValue">${config.padding}px</span>
-                    </div>
-                </div>
-                
-                <div class="control-group">
                     <div class="checkbox-group">
                         <input type="checkbox" id="showLineNumbers" ${config.showLineNumbers ? 'checked' : ''}>
                         <label for="showLineNumbers" style="margin: 0;">Show Line Numbers</label>
@@ -372,15 +338,6 @@ function getConfigurationWebview(code: string, language: string, fileName: strin
                     <div class="checkbox-group">
                         <input type="checkbox" id="showWindowControls" ${config.showWindowControls ? 'checked' : ''}>
                         <label for="showWindowControls" style="margin: 0;">Show Window Controls</label>
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="backgroundColor">Background Color (optional)</label>
-                    <input type="color" id="backgroundColor" value="#1e1e1e">
-                    <div class="checkbox-group" style="margin-top: 6px;">
-                        <input type="checkbox" id="useCustomBg">
-                        <label for="useCustomBg" style="margin: 0;">Use custom color</label>
                     </div>
                 </div>
             </div>
@@ -400,12 +357,8 @@ function getConfigurationWebview(code: string, language: string, fileName: strin
                 const theme = document.getElementById('theme');
                 const fontSize = document.getElementById('fontSize');
                 const fontSizeValue = document.getElementById('fontSizeValue');
-                const padding = document.getElementById('padding');
-                const paddingValue = document.getElementById('paddingValue');
                 const showLineNumbers = document.getElementById('showLineNumbers');
                 const showWindowControls = document.getElementById('showWindowControls');
-                const backgroundColor = document.getElementById('backgroundColor');
-                const useCustomBg = document.getElementById('useCustomBg');
                 const copyBtn = document.getElementById('copyBtn');
                 
                 // Update range display values
@@ -413,11 +366,7 @@ function getConfigurationWebview(code: string, language: string, fileName: strin
                     fontSizeValue.textContent = e.target.value + 'px';
                 });
                 
-                padding.addEventListener('input', (e) => {
-                    paddingValue.textContent = e.target.value + 'px';
-                });
-                
-                // Debounce function to avoid too many API calls
+                // Debounce function to avoid too many updates
                 let debounceTimer;
                 function debounceUpdate() {
                     clearTimeout(debounceTimer);
@@ -425,7 +374,7 @@ function getConfigurationWebview(code: string, language: string, fileName: strin
                 }
                 
                 // Listen for changes on all controls
-                [theme, fontSize, padding, showLineNumbers, showWindowControls, backgroundColor, useCustomBg].forEach(el => {
+                [theme, fontSize, showLineNumbers, showWindowControls].forEach(el => {
                     el.addEventListener('change', debounceUpdate);
                     if (el.type === 'range') {
                         el.addEventListener('input', debounceUpdate);
@@ -437,8 +386,6 @@ function getConfigurationWebview(code: string, language: string, fileName: strin
                         theme: theme.value,
                         showLineNumbers: showLineNumbers.checked,
                         showWindowControls: showWindowControls.checked,
-                        backgroundColor: useCustomBg.checked ? backgroundColor.value : null,
-                        padding: parseInt(padding.value),
                         fontSize: parseInt(fontSize.value)
                     };
                     
@@ -467,8 +414,64 @@ function getConfigurationWebview(code: string, language: string, fileName: strin
                         const preview = document.getElementById('preview');
                         preview.innerHTML = '<img src="data:image/png;base64,' + message.image + '" />';
                         copyBtn.style.display = 'block';
+                    } else if (message.command === 'renderAndCapture') {
+                        // Render HTML and capture as image
+                        renderAndCapture(message.html);
                     }
                 });
+                
+                // html2canvas CDN
+                function loadHtml2Canvas() {
+                    return new Promise((resolve, reject) => {
+                        if (window.html2canvas) {
+                            resolve(window.html2canvas);
+                            return;
+                        }
+                        const script = document.createElement('script');
+                        script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+                        script.onload = () => resolve(window.html2canvas);
+                        script.onerror = reject;
+                        document.head.appendChild(script);
+                    });
+                }
+                
+                async function renderAndCapture(html) {
+                    try {
+                        // Load html2canvas if not already loaded
+                        const html2canvas = await loadHtml2Canvas();
+                        
+                        // Create temporary container
+                        const container = document.createElement('div');
+                        container.style.position = 'absolute';
+                        container.style.left = '-9999px';
+                        container.innerHTML = html;
+                        document.body.appendChild(container);
+                        
+                        // Wait for fonts and styles to load
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                        
+                        // Capture as canvas
+                        const canvas = await html2canvas(container, {
+                            backgroundColor: null,
+                            scale: 2, // Higher quality
+                            logging: false
+                        });
+                        
+                        // Convert to base64
+                        const base64 = canvas.toDataURL('image/png').split(',')[1];
+                        
+                        // Clean up
+                        document.body.removeChild(container);
+                        
+                        // Send back to extension
+                        vscode.postMessage({
+                            command: 'imageCaptured',
+                            data: base64
+                        });
+                    } catch (error) {
+                        console.error('Capture error:', error);
+                    }
+                }
             </script>
         </body>
         </html>

@@ -8,9 +8,11 @@ Create stunning, customizable screenshots of your code snippets with just a few 
 
 - **🎨 13 Beautiful Themes** - Dracula, Monokai, One Dark, Nord, Night Owl, Solarized, GitHub Dark, and more
 - **⚡ Live Preview** - See your snapshot update in real-time as you customize
-- **🎯 Fully Customizable** - Adjust font size, padding, line numbers, window controls, and background colors
+- **🎯 Customizable** - Adjust font size, line numbers, and window controls
 - **📋 One-Click Copy** - Copy to clipboard and paste anywhere
 - **🌍 20+ Languages** - Python, JavaScript, TypeScript, Java, C++, Go, Rust, and more
+- **🔒 100% Offline** - No internet required, your code never leaves your machine
+- **⚡ Lightning Fast** - Generate snapshots instantly with local processing
 
 ## 🚀 How to Use
 
@@ -20,22 +22,19 @@ Create stunning, customizable screenshots of your code snippets with just a few 
 2. **Right-click** and choose "DevSnap: Create Beautiful Snippet"
 3. **Customize** your screenshot using the settings panel:
    - Choose a theme
-   - Adjust font size and padding
+   - Adjust font size
    - Toggle line numbers and window controls
-   - Pick a custom background color
 4. **Copy** to clipboard with one click
 
-## ⚙️ Settings
+## ⚙️ Customization
 
-You can customize DevSnap behavior in VS Code settings:
+DevSnap works completely offline with no configuration needed! Just install and start creating beautiful code screenshots.
 
-1. Open Settings (`Cmd+,` on macOS or `Ctrl+,` on Windows/Linux)
-2. Search for "DevSnap"
-3. Configure available options
-
-### Available Settings
-
-- `devsnap.apiBaseUrl` - Backend API URL (configured by default)
+All customization is done through the live preview panel:
+- Choose from 13 themes
+- Adjust font size (10-24px)
+- Toggle line numbers
+- Toggle window controls
 
 ## 🎨 Available Themes
 
@@ -78,6 +77,8 @@ Python • JavaScript • TypeScript • Java • C++ • C • C# • Go • Ru
 - ⚙️ Customizable font size, padding, and colors
 - 📋 One-click copy to clipboard
 - 🌍 Support for 20+ programming languages
+- 🔒 100% offline - no internet required
+- ⚡ Lightning fast local generation
 
 ## 🤝 Feedback & Support
 

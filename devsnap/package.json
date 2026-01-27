@@ -60,16 +60,6 @@
           "when": "editorHasSelection"
         }
       ]
-    },
-    "configuration": {
-      "title": "DevSnap",
-      "properties": {
-        "devsnap.apiBaseUrl": {
-          "type": "string",
-          "default": "http://localhost:8000",
-          "description": "Base URL for the DevSnap API backend"
-        }
-      }
     }
   },
   "scripts": {
@@ -91,6 +81,6 @@
     "@vscode/test-electron": "^2.5.2"
   },
   "dependencies": {
-    "axios": "^1.6.5"
+    "shiki": "^1.0.0"
   }
 }

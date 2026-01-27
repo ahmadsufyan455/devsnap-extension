@@ -5,10 +5,13 @@ All notable changes to the "DevSnap" extension will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.1] - 2026-01-26
+## [0.0.1] - 2026-01-27
 
 ### Added
 - Initial release of DevSnap
+- **100% Offline** - No internet connection required
+- **Lightning Fast** - Local image generation using Shiki + Sharp
+- **Privacy First** - Your code never leaves your machine
 - Live preview with real-time updates
 - 13 beautiful syntax highlighting themes (Dracula, Monokai, One Dark, Nord, Night Owl, Solarized Dark/Light, GitHub Dark, Material, Cobalt, Darcula, Gruvbox Dark, Tokyo Night)
 - Customizable settings:
@@ -19,7 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Custom background color picker
 - One-click copy to clipboard functionality
 - Support for 20+ programming languages
-- Configurable backend API URL via VS Code settings
 - Context menu integration (right-click on selected code)
 - Command Palette support
 
@@ -27,6 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - macOS clipboard integration
 - Windows clipboard integration (PowerShell)
 - Linux clipboard integration (xclip)
+
+### Technical
+- Uses Shiki (VS Code's syntax highlighter) for accurate highlighting
+- Sharp for high-quality PNG generation
+- No external API dependencies
+- Self-contained extension
 
 ## [Unreleased]
 
