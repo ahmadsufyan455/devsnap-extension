@@ -2,8 +2,6 @@
 
 Create stunning, customizable screenshots of your code snippets with just a few clicks! Perfect for documentation, blog posts, presentations, and social media.
 
-![DevSnap Demo](images/demo.gif)
-
 ## ✨ Features
 
 - **🎨 13 Beautiful Themes** - Dracula, Monokai, One Dark, Nord, Night Owl, Solarized, GitHub Dark, and more
@@ -16,7 +14,7 @@ Create stunning, customizable screenshots of your code snippets with just a few 
 
 ## 🚀 How to Use
 
-![Usage Example](images/usage.gif)
+![Usage Example](images/demo.gif)
 
 1. **Select** code in your editor
 2. **Right-click** and choose "DevSnap: Create Beautiful Snippet"
