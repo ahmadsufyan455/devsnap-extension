@@ -2,7 +2,7 @@
   "name": "devsnap",
   "displayName": "DevSnap - Beautiful Code Screenshots",
   "description": "Create stunning, customizable screenshots of your code with live preview. Perfect for documentation, blogs, and social media.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "0dev",
   "author": {
     "name": "Ahmad Sufyan"
