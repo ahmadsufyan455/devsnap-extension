@@ -14,7 +14,7 @@ Create stunning, customizable screenshots of your code snippets with just a few 
 
 ## 🚀 How to Use
 
-![Usage Example](images/demo.gif)
+![Usage Example](https://raw.githubusercontent.com/ahmadsufyan455/devsnap-extension/refs/heads/main/devsnap/images/demo.gif)
 
 1. **Select** code in your editor
 2. **Right-click** and choose "DevSnap: Create Beautiful Snippet"
